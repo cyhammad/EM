@@ -13,6 +13,7 @@
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.7",
     "@reduxjs/toolkit": "^1.9.1",
+    "firebase": "^9.15.0",
     "react": "18.1.0",
     "react-native": "0.70.6",
     "react-native-paper": "^5.1.2",
@@ -33,5 +34,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./src/assets/fonts/"
+    ]
   }
 }
