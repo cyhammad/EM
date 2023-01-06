@@ -7,7 +7,7 @@ import TabRoot from './TabRoot';
 
 const Drawer = createDrawerNavigator();
 
-const DrawerRoot = ({user}) => {
+const DrawerRoot = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">

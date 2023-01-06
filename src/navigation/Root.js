@@ -8,6 +8,7 @@ import ForgetPasswordScreen from '../screens/ForgetPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import PasswordChangedScreen from '../screens/PasswordChangedScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
+import { auth } from '../../firebase';
 
 const Stack = createNativeStackNavigator();
 

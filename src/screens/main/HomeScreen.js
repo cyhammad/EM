@@ -1,21 +1,27 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import auth, {firebase} from '@react-native-firebase/auth';
+import {auth} from '../../../firebase';
+import {signOut} from 'firebase/auth';
+import {Button} from 'react-native-paper';
 
-const HomeScreen = ({route}) => {
-  const user = firebase.auth().currentUser;
+const HomeScreen = ({navigation}) => {
+  const user = auth.currentUser;
   const logout = () => {
-    auth()
-      .signOut()
-      .then(() => console.log('User signed out!'));
+    signOut(auth)
+      .then(() => {
+        console.log('logged out');
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
   return (
     <View>
-      <Text>{user?.email}</Text>
+      <Text>{user.email}</Text>
       <Text>Welcome to homepage</Text>
-      <TouchableOpacity onPress={logout}>
-        <Text>Logout</Text>
-      </TouchableOpacity>
+      <Button mode="contained" onPress={logout}>
+        Logout
+      </Button>
     </View>
   );
 };

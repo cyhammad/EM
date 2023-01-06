@@ -1,24 +1,26 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import {
-  IconButton,
-  TextInput,
-} from 'react-native-paper';
-import auth from '@react-native-firebase/auth';
+import {Chip, IconButton, TextInput} from 'react-native-paper';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 const LoginScreen = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [pass, setPass] = useState('');
   const [showPass, setShowPass] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
   const loginUser = async () => {
-    auth()
-      .signInWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!')
-      .then(() => {
-        console.log('User account created & signed in!');
+    console.log(email, pass);
+    signInWithEmailAndPassword(auth, email, pass)
+      .then(userCredential => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
       })
       .catch(error => {
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
-        console.error(error);
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrorMsg(`${errorCode} Error: ${errorMessage}`);
       });
   };
   return (
@@ -41,6 +43,8 @@ const LoginScreen = ({navigation}) => {
           selectionColor="black"
           placeholder="Enter your email"
           placeholderTextColor="#8391A1"
+          value={email}
+          onChangeText={setEmail}
         />
         <TextInput
           mode="outlined"
@@ -58,13 +62,28 @@ const LoginScreen = ({navigation}) => {
               onPress={() => setShowPass(!showPass)}
             />
           }
+          value={pass}
+          onChangeText={setPass}
         />
         <TouchableOpacity
           style={styles.forgetbtn}
           onPress={() => navigation.navigate('ForgetPassword')}>
           <Text style={styles.forgettxt}>Forgot Password?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginbtn} theme={{borderRadius: 0}} onPress={()=>loginUser()}>
+        {errorMsg === '' ? null : (
+          <Chip
+            icon="information"
+            closeIcon="close"
+            onClose={() => setErrorMsg('')}
+            onPress={() => console.log('Pressed')}
+            style={styles.chipstyle}>
+            {errorMsg}
+          </Chip>
+        )}
+        <TouchableOpacity
+          style={styles.loginbtn}
+          theme={{borderRadius: 0}}
+          onPress={() => loginUser()}>
           <Text style={styles.btntext}>Login</Text>
         </TouchableOpacity>
         <View style={styles.noaccountview}>

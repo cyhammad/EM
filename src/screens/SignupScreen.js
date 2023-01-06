@@ -1,36 +1,44 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import {IconButton, TextInput} from 'react-native-paper';
-import auth from '@react-native-firebase/auth';
+import {Chip, IconButton, TextInput} from 'react-native-paper';
+import {createUserWithEmailAndPassword} from 'firebase/auth';
+import {auth} from '../../firebase';
 
 const SignupScreen = ({navigation}) => {
-  const [showPass, setShowPass] = useState(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPass, setShowPass] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const registerUser = async () => {
     console.log(username, email, password, confirmPassword);
-    auth()
-      .createUserWithEmailAndPassword(
-        'jane.doe@example.com',
-        'SuperSecretPassword!',
-      )
-      .then(() => {
-        console.log('User account created & signed in!');
-      })
-      .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
-        }
-
-        if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
-        }
-
-        console.error(error);
-      });
+    if (
+      username !== '' &&
+      email !== '' &&
+      password !== '' &&
+      confirmPassword !== ''
+    ) {
+      if (password === confirmPassword) {
+        console.log(username, email, password, confirmPassword);
+        createUserWithEmailAndPassword(auth, email, password)
+        .then(userCredential => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+        })
+        .catch(error => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMsg(`${errorCode} Error: ${errorMessage}`);
+        });
+      } else {
+        setErrorMsg('Password must be equal to confirm password!');
+      }
+    } else {
+      setErrorMsg('Fields cannot be empty!');
+    }
   };
   return (
     <View style={styles.container} rippleColor="rgba(0, 0, 0, .32)">
@@ -53,6 +61,7 @@ const SignupScreen = ({navigation}) => {
           placeholderTextColor="#8391A1"
           value={username}
           onChangeText={setUsername}
+          textContentType="username"
         />
         <TextInput
           mode="outlined"
@@ -65,6 +74,7 @@ const SignupScreen = ({navigation}) => {
           placeholderTextColor="#8391A1"
           value={email}
           onChangeText={setEmail}
+          textContentType="emailAddress"
         />
         <TextInput
           mode="outlined"
@@ -78,6 +88,8 @@ const SignupScreen = ({navigation}) => {
           value={password}
           onChangeText={setPassword}
           secureTextEntry={!showPass}
+          autoComplete="off"
+          textContentType="password"
           right={
             <TextInput.Icon
               icon={showPass ? 'eye-off-outline' : 'eye-outline'}
@@ -97,6 +109,8 @@ const SignupScreen = ({navigation}) => {
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           secureTextEntry={!showPass}
+          autoComplete="off"
+          textContentType="password"
           right={
             <TextInput.Icon
               icon={showPass ? 'eye-off-outline' : 'eye-outline'}
@@ -104,6 +118,16 @@ const SignupScreen = ({navigation}) => {
             />
           }
         />
+        {errorMsg === '' ? null : (
+          <Chip
+            icon="information"
+            closeIcon="close"
+            onClose={() => setErrorMsg('')}
+            onPress={() => console.log('Pressed')}
+            style={styles.chipstyle}>
+            {errorMsg}
+          </Chip>
+        )}
         <TouchableOpacity
           style={styles.loginbtn}
           theme={{borderRadius: 0}}
@@ -189,5 +213,10 @@ const styles = StyleSheet.create({
   },
   urbanisttext: {
     fontFamily: 'Urbanist-Regular',
+  },
+  chipstyle: {
+    height: 40,
+    width: '80%',
+    marginTop: 10,
   },
 });
