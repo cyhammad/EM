@@ -51,7 +51,10 @@ const ResetPasswordScreen = ({navigation}) => {
             />
           }
         />
-        <TouchableOpacity style={styles.loginbtn} theme={{borderRadius: 0}}>
+        <TouchableOpacity
+          style={styles.loginbtn}
+          theme={{borderRadius: 0}}
+          onPress={() => navigation.navigate('PasswordChanged')}>
           <Text style={styles.btntext}>Reset Password</Text>
         </TouchableOpacity>
       </View>

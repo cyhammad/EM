@@ -1,6 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {IconButton} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const PasswordChangedScreen = ({navigation}) => {
   return (
@@ -11,8 +12,12 @@ const PasswordChangedScreen = ({navigation}) => {
         size={30}
         onPress={() => navigation.goBack()}
       />
+      <Icon name="check-decagram" size={120} color="#3E5E9B" style={styles.checkicon} />
       <View style={styles.container2}>
         <Text style={styles.urbanist}>Password Changed!</Text>
+        <Text style={styles.smalltext}>
+          Your password has been changed successfully
+        </Text>
         <TouchableOpacity style={styles.loginbtn} theme={{borderRadius: 0}}>
           <Text style={styles.btntext}>Back to Login</Text>
         </TouchableOpacity>
@@ -36,19 +41,16 @@ const styles = StyleSheet.create({
     color: 'black',
     fontFamily: 'Urbanist-Bold',
     fontSize: 26,
-    marginVertical: 20,
-    width: '80%',
-  },
-  whisper: {
-    fontFamily: 'Whisper',
-    fontSize: 50,
     marginTop: 20,
-    marginBottom: 50,
   },
-  input: {
-    width: '80%',
-    backgroundColor: '#F7F8F9',
-    marginVertical: 5,
+  smalltext: {
+    color: '#8391A1',
+    fontFamily: 'Urbanist-Regular',
+    fontSize: 14,
+    marginTop: 10,
+    marginBottom: 20,
+    width: '60%',
+    textAlign: 'center',
   },
   loginbtn: {
     width: '80%',
@@ -74,18 +76,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'right',
   },
-  noaccountview: {
-    flexDirection: 'row',
-    marginTop: 30,
-  },
-  registerbtn: {
-    marginLeft: 1,
-    fontFamily: 'Urbanist-Regular',
-  },
-  registertxt: {
-    fontFamily: 'Urbanist-Bold',
-  },
-  urbanisttext: {
-    fontFamily: 'Urbanist-Regular',
+  checkicon: {
+    alignSelf: 'center',
   },
 });

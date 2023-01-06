@@ -1,16 +1,28 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {
-  Button,
   IconButton,
   TextInput,
-  TouchableRipple,
 } from 'react-native-paper';
+import auth from '@react-native-firebase/auth';
 
 const LoginScreen = ({navigation}) => {
   const [showPass, setShowPass] = useState(false);
+  const loginUser = async () => {
+    auth()
+      .signInWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!')
+      .then(() => {
+        console.log('User account created & signed in!');
+      })
+      .catch(error => {
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
+        console.error(error);
+      });
+  };
   return (
-    <View style={styles.container} rippleColor="rgba(0, 0, 0, .32)">
+    <View style={styles.container}>
       <IconButton
         icon="chevron-left"
         color="black"
@@ -52,7 +64,7 @@ const LoginScreen = ({navigation}) => {
           onPress={() => navigation.navigate('ForgetPassword')}>
           <Text style={styles.forgettxt}>Forgot Password?</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginbtn} theme={{borderRadius: 0}}>
+        <TouchableOpacity style={styles.loginbtn} theme={{borderRadius: 0}} onPress={()=>loginUser()}>
           <Text style={styles.btntext}>Login</Text>
         </TouchableOpacity>
         <View style={styles.noaccountview}>
