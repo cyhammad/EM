@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Root from './src/navigation/Root';
 import DrawerRoot from './src/navigation/DrawerRoot';
 import {onAuthStateChanged} from 'firebase/auth';

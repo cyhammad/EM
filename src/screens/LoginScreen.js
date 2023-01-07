@@ -1,14 +1,16 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {Chip, IconButton, TextInput} from 'react-native-paper';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase';
+import {signInWithEmailAndPassword} from 'firebase/auth';
+import {auth} from '../../firebase';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({navigation, route}) => {
+  const {msg} = route.params ? route.params : {msg: ''};
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
   const loginUser = async () => {
     console.log(email, pass);
     signInWithEmailAndPassword(auth, email, pass)
@@ -78,6 +80,17 @@ const LoginScreen = ({navigation}) => {
             onPress={() => console.log('Pressed')}
             style={styles.chipstyle}>
             {errorMsg}
+          </Chip>
+        )}
+        {msg && (
+          <Chip
+            icon="information"
+            mode="outlined"
+            closeIcon="close"
+            onClose={() => navigation.navigate('Login')}
+            onPress={() => console.log('Pressed')}
+            style={styles.chipstyle}>
+            {msg}
           </Chip>
         )}
         <TouchableOpacity
@@ -163,5 +176,10 @@ const styles = StyleSheet.create({
   },
   urbanisttext: {
     fontFamily: 'Urbanist-Regular',
+  },
+  chipstyle: {
+    height: 40,
+    width: '80%',
+    marginTop: 10,
   },
 });

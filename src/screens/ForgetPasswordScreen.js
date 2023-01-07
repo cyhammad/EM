@@ -1,9 +1,23 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {IconButton, TextInput} from 'react-native-paper';
+import {sendPasswordResetEmail} from 'firebase/auth';
+import {auth} from '../../firebase';
 
 const ForgetPasswordScreen = ({navigation}) => {
-  const [showPass, setShowPass] = useState(false);
+  const [email, setEmail] = useState(false);
+  const handleSendCode = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        console.log('Password reset email sent!');
+        navigation.navigate('Login', {msg: 'Password reset email sent!'});
+      })
+      .catch(error => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
   return (
     <View style={styles.container} rippleColor="rgba(0, 0, 0, .32)">
       <IconButton
@@ -27,8 +41,13 @@ const ForgetPasswordScreen = ({navigation}) => {
           selectionColor="black"
           placeholder="Enter your email"
           placeholderTextColor="#8391A1"
+          value={email}
+          onChangeText={setEmail}
         />
-        <TouchableOpacity style={styles.codebtn} theme={{borderRadius: 0}} onPress={()=> navigation.navigate('ResetPassword')}>
+        <TouchableOpacity
+          style={styles.codebtn}
+          theme={{borderRadius: 0}}
+          onPress={() => handleSendCode()}>
           <Text style={styles.btntext}>Send Code</Text>
         </TouchableOpacity>
         <View style={styles.noaccountview}>

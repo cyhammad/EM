@@ -1,9 +1,13 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import {IconButton, TextInput} from 'react-native-paper';
+import {Chip, IconButton, TextInput} from 'react-native-paper';
 
 const ResetPasswordScreen = ({navigation}) => {
   const [showPass, setShowPass] = useState(false);
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
   return (
     <View style={styles.container} rippleColor="rgba(0, 0, 0, .32)">
       <IconButton
@@ -24,9 +28,11 @@ const ResetPasswordScreen = ({navigation}) => {
           outlineColor="#F7F8F9"
           activeOutlineColor="#8391A1"
           selectionColor="black"
-          placeholder="Password"
+          placeholder="New Password"
           placeholderTextColor="#8391A1"
           secureTextEntry={!showPass}
+          value={password}
+          onChangeText={setPassword}
           right={
             <TextInput.Icon
               icon={showPass ? 'eye-off-outline' : 'eye-outline'}
@@ -44,6 +50,8 @@ const ResetPasswordScreen = ({navigation}) => {
           placeholder="Confirm Password"
           placeholderTextColor="#8391A1"
           secureTextEntry={!showPass}
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
           right={
             <TextInput.Icon
               icon={showPass ? 'eye-off-outline' : 'eye-outline'}
@@ -51,6 +59,16 @@ const ResetPasswordScreen = ({navigation}) => {
             />
           }
         />
+        {errorMsg === '' ? null : (
+          <Chip
+            icon="information"
+            closeIcon="close"
+            onClose={() => setErrorMsg('')}
+            onPress={() => console.log('Pressed')}
+            style={styles.chipstyle}>
+            {errorMsg}
+          </Chip>
+        )}
         <TouchableOpacity
           style={styles.loginbtn}
           theme={{borderRadius: 0}}
@@ -136,5 +154,10 @@ const styles = StyleSheet.create({
   },
   urbanisttext: {
     fontFamily: 'Urbanist-Regular',
+  },
+  chipstyle: {
+    height: 40,
+    width: '80%',
+    marginTop: 10,
   },
 });
