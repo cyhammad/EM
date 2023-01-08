@@ -1,11 +1,12 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import HomeScreen from '../screens/main/HomeScreen';
 import WishlistScreen from '../screens/main/WishlistScreen';
 import CartScreen from '../screens/main/CartScreen';
-import UserScreen from '../screens/main/UserScreen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import UserProfileScreen from '../screens/main/UserProfileScreen';
+import UserProfileRoot from './UserProfileRoot';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -25,7 +26,6 @@ const TabRoot = () => {
         options={{
           tabBarIcon: () => <Icon name="home" size={26} />,
           tabBarColor: '#ffffff',
-          
         }}
       />
       <Tab.Screen
@@ -50,7 +50,7 @@ const TabRoot = () => {
       />
       <Tab.Screen
         name="UserTab"
-        component={UserScreen}
+        component={UserProfileRoot}
         options={{
           tabBarIcon: () => <Icon name="account" size={28} />,
           tabBarLabel: 'User',

@@ -1,7 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
-import HomeScreen from '../screens/main/HomeScreen';
 import CategoriesScreen from '../screens/main/CategoriesScreen';
 import TabRoot from './TabRoot';
 
@@ -11,7 +10,13 @@ const DrawerRoot = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={TabRoot} />
+        <Drawer.Screen
+          name="Home"
+          component={TabRoot}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Drawer.Screen name="Categories" component={CategoriesScreen} />
       </Drawer.Navigator>
     </NavigationContainer>

@@ -8,13 +8,14 @@ import ForgetPasswordScreen from '../screens/ForgetPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
 import PasswordChangedScreen from '../screens/PasswordChangedScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
-import { auth } from '../../firebase';
+import UserProfileScreen from '../screens/main/UserProfileScreen';
+import UpdateProfileScreen from '../screens/main/UpdateProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
 const Root = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer independent={true}>
       <Stack.Navigator>
         <Stack.Screen
           name="Welcome"
@@ -49,6 +50,16 @@ const Root = () => {
         <Stack.Screen
           name="PasswordChanged"
           component={PasswordChangedScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="UserProfile"
+          component={UserProfileScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="UpdateProfile"
+          component={UpdateProfileScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
