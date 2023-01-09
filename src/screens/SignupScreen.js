@@ -1,8 +1,9 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {Chip, IconButton, TextInput} from 'react-native-paper';
-import {createUserWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../../firebase';
+import {createUserWithEmailAndPassword, updateProfile} from 'firebase/auth';
+import {auth, database} from '../../firebase';
+import {ref, set} from 'firebase/database';
 
 const SignupScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
@@ -23,16 +24,25 @@ const SignupScreen = ({navigation}) => {
       if (password === confirmPassword) {
         console.log(username, email, password, confirmPassword);
         createUserWithEmailAndPassword(auth, email, password)
-        .then(userCredential => {
-          // Signed in
-          const user = userCredential.user;
-          console.log(user);
-        })
-        .catch(error => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          setErrorMsg(`${errorCode} Error: ${errorMessage}`);
-        });
+          .then(userCredential => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(user.uid);
+            updateProfile(auth.currentUser, {
+              displayName: username,
+            }).then(() => {
+              console.log('Username added.');
+            });
+            set(ref(database, 'users/' + user.uid), {
+              username: username,
+              email: email,
+            });
+          })
+          .catch(error => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setErrorMsg(`${errorCode} Error: ${errorMessage}`);
+          });
       } else {
         setErrorMsg('Password must be equal to confirm password!');
       }

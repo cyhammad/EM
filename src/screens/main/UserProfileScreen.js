@@ -1,5 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import {signOut} from 'firebase/auth';
+import {onValue, ref} from 'firebase/database';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -10,6 +12,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {auth, database} from '../../../firebase';
 
 const logoutAlert = () => {
   Alert.alert(
@@ -18,7 +21,16 @@ const logoutAlert = () => {
     [
       {
         text: 'Log Out',
-        onPress: () => Alert.alert('Logged Out.'),
+        onPress: () => {
+          Alert.alert('Logged Out.');
+          signOut(auth)
+            .then(() => {
+              console.log('Signed out');
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        },
         style: 'Cancel',
       },
       {
@@ -35,7 +47,7 @@ const logoutAlert = () => {
 const deleteAlert = () => {
   Alert.alert(
     'Delete Account',
-    'By deleting your account, all information will be deleted.                             Do you wish to proceed?',
+    'By deleting your account, all information will be deleted. Do you wish to proceed?',
     [
       {
         text: 'Delete',
@@ -53,17 +65,42 @@ const deleteAlert = () => {
   );
 };
 function UserProfileScreen({navigation}) {
+  const user = auth.currentUser;
+  const [userData, setUserData] = useState(null);
+  useEffect(() => {
+    const userRef = ref(database, 'users/' + user.uid);
+    onValue(userRef, snapshot => {
+      const data = snapshot.val();
+      setUserData(data);
+    });
+  }, []);
   return (
-    <ScrollView
-      style={{flex: 1, width: '100%', height: '100%', marginVertical: '5%'}}>
-      <View style={{padding: '10%'}}>
-        <View style={{borderRadius: 250}}>
-          <Image
-            source={{
-              uri: '',
-            }}
-            style={{width: 150, height: 150}}
-          />
+    <ScrollView style={{flex: 1, width: '100%', height: '100%'}}>
+      <View
+        style={{
+          padding: '10%',
+          backgroundColor: 'white',
+        }}>
+        <View
+          style={{
+            borderRadius: 250,
+            backgroundColor: '#F6F6F6',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: 150,
+            alignSelf: 'center',
+          }}>
+          {userData?.image ? (
+            <Image
+              source={{uri: userData.image}}
+              style={{width: 150, height: 150, borderRadius: 250}}
+            />
+          ) : (
+            <Image
+              source={require('../../assets/avatar.png')}
+              style={{width: 150, height: 150}}
+            />
+          )}
         </View>
         <View style={{alignItems: 'center', marginVertical: '5%'}}>
           <TouchableOpacity
@@ -76,7 +113,9 @@ function UserProfileScreen({navigation}) {
               justifyContent: 'center',
               alignItems: 'center',
             }}
-            onPress={() => navigation.navigate('UpdateProfile')}>
+            onPress={() =>
+              navigation.navigate('UpdateProfile', {userData: userData})
+            }>
             <Icon name="camera" size={14} color="white" />
             <Text
               style={{
@@ -93,35 +132,31 @@ function UserProfileScreen({navigation}) {
         <View style={styles.outer_view}>
           <Text style={styles.outer_text}>Name</Text>
           <View style={styles.text_view}>
-            <Text style={styles.inner_text}>Saif Alvey</Text>
+            <Text style={styles.inner_text}>{userData?.username}</Text>
           </View>
         </View>
         <View style={styles.outer_view}>
           <Text style={styles.outer_text}>Email</Text>
           <View style={styles.text_view}>
-            <Text style={styles.inner_text}>saif.alvey@gmail.com</Text>
+            <Text style={styles.inner_text}>{userData?.email}</Text>
           </View>
         </View>
         <View style={styles.outer_view}>
           <Text style={styles.outer_text}>Phone</Text>
           <View style={styles.text_view}>
-            <Text style={styles.inner_text}>+923215100097</Text>
+            <Text style={styles.inner_text}>{userData?.phoneNumber}</Text>
           </View>
         </View>
         <View style={styles.outer_view}>
           <Text style={styles.outer_text}>Payment Address</Text>
           <View style={styles.text_view}>
-            <Text style={styles.inner_text}>
-              H. no 21D Adyala Road Rawalpindi.
-            </Text>
+            <Text style={styles.inner_text}>{userData?.paymentAddress}</Text>
           </View>
         </View>
         <View style={styles.outer_view}>
           <Text style={styles.outer_text}>Delivery Address</Text>
           <View style={styles.text_view}>
-            <Text style={styles.inner_text}>
-              H. no 21D Adyala Road Rawalpindi.
-            </Text>
+            <Text style={styles.inner_text}>{userData?.deliveryAddress}</Text>
           </View>
         </View>
         <View
