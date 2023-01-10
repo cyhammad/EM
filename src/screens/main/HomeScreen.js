@@ -270,7 +270,7 @@ const HomeScreen = ({navigation}) => {
             }}>
             <View>
               <Text style={{color: 'white', fontSize: 20}}>Honda Civic</Text>
-              <View>
+              <View style={{flexDirection: 'row', width: '60%', justifyContent: 'space-between', marginTop: 5}}>
                 <View style={{flexDirection: 'row'}}>
                   <Icon
                     name="lightning-bolt"
@@ -283,26 +283,60 @@ const HomeScreen = ({navigation}) => {
                 </View>
                 <View style={{flexDirection: 'row'}}>
                   <Icon
-                    name="lightning-bolt"
-                    size={18}
+                    name="chart-bar"
+                    size={16}
                     style={{color: 'white'}}
                   />
-                  <Text style={{color: 'white', fontFamily: 'Urbanist-Light'}}>
-                    turbo
+                  <Text style={{color: 'white', fontFamily: 'Urbanist-Light',marginLeft: 5}}>
+                    2022
                   </Text>
                 </View>
               </View>
             </View>
             <TouchableOpacity
-              style={{padding: 5, backgroundColor: 'white', borderRadius: 20}}>
+              style={{padding: 5, backgroundColor: 'white', borderRadius: 20, marginVertical: 10}}>
               <Icon name="arrow-right" size={20} />
             </TouchableOpacity>
           </View>
           <View
             style={{height: 0.2, backgroundColor: 'white', width: '100%'}}
           />
-          <View>
-            <Text style={{color: 'white', fontSize: 20}}>Toyota Corolla</Text>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingVertical: 10,
+            }}>
+            <View>
+              <Text style={{color: 'white', fontSize: 20}}>Toyota Corolla</Text>
+              <View style={{flexDirection: 'row', width: '60%', justifyContent: 'space-between', marginTop: 5}}>
+                <View style={{flexDirection: 'row'}}>
+                  <Icon
+                    name="lightning-bolt"
+                    size={18}
+                    style={{color: 'white'}}
+                  />
+                  <Text style={{color: 'white', fontFamily: 'Urbanist-Light'}}>
+                    CVT-I
+                  </Text>
+                </View>
+                <View style={{flexDirection: 'row'}}>
+                  <Icon
+                    name="chart-bar"
+                    size={16}
+                    style={{color: 'white'}}
+                  />
+                  <Text style={{color: 'white', fontFamily: 'Urbanist-Light',marginLeft: 5}}>
+                    2022
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={{padding: 5, backgroundColor: 'white', borderRadius: 20, marginVertical: 10}}>
+              <Icon name="arrow-right" size={20} />
+            </TouchableOpacity>
           </View>
         </View>
       </View>

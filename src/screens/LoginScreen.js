@@ -12,7 +12,6 @@ const LoginScreen = ({navigation, route}) => {
   const [errorMsg, setErrorMsg] = useState('');
 
   const loginUser = async () => {
-    console.log(email, pass);
     signInWithEmailAndPassword(auth, email, pass)
       .then(userCredential => {
         // Signed in

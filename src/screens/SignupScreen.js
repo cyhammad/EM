@@ -14,7 +14,6 @@ const SignupScreen = ({navigation}) => {
   const [errorMsg, setErrorMsg] = useState('');
 
   const registerUser = async () => {
-    console.log(username, email, password, confirmPassword);
     if (
       username !== '' &&
       email !== '' &&
@@ -22,7 +21,6 @@ const SignupScreen = ({navigation}) => {
       confirmPassword !== ''
     ) {
       if (password === confirmPassword) {
-        console.log(username, email, password, confirmPassword);
         createUserWithEmailAndPassword(auth, email, password)
           .then(userCredential => {
             // Signed in
