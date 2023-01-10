@@ -2,9 +2,10 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {Chip, IconButton, TextInput} from 'react-native-paper';
 import {signInWithEmailAndPassword} from 'firebase/auth';
-import {auth} from '../../firebase';
+import {auth, database} from '../../../firebase';
+import {onValue, ref} from 'firebase/database';
 
-const LoginScreen = ({navigation, route}) => {
+const AdminLoginScreen = ({navigation, route}) => {
   const {msg} = route.params ? route.params : {msg: ''};
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -12,18 +13,23 @@ const LoginScreen = ({navigation, route}) => {
   const [errorMsg, setErrorMsg] = useState('');
 
   const loginUser = async () => {
-    console.log(email, pass);
-    signInWithEmailAndPassword(auth, email, pass)
-      .then(userCredential => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch(error => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMsg(`${errorCode} Error: ${errorMessage}`);
-      });
+    const adminRef = ref(database, 'users/admin');
+    onValue(adminRef, snapshot => {
+      const data = snapshot.val();
+      if (email === data.email) {
+        signInWithEmailAndPassword(auth, email, pass)
+          .then(userCredential => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(user);
+          })
+          .catch(error => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setErrorMsg(`${errorCode} Error: ${errorMessage}`);
+          });
+      }
+    });
   };
   return (
     <View style={styles.container}>
@@ -35,7 +41,7 @@ const LoginScreen = ({navigation, route}) => {
       />
       <View style={styles.container2}>
         <Text style={styles.urbanist}>Welcome to</Text>
-        <Text style={styles.whisper}>ExtraMile</Text>
+        <Text style={styles.whisper}>ExtraMile Admin</Text>
         <TextInput
           mode="outlined"
           textColor="#8391A1"
@@ -100,19 +106,11 @@ const LoginScreen = ({navigation, route}) => {
           <Text style={styles.btntext}>Login</Text>
         </TouchableOpacity>
         <View style={styles.noaccountview}>
-          <Text style={styles.urbanisttext}>Don't have an account? </Text>
+          <Text style={styles.urbanisttext}>Login as user here: </Text>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Signup')}
+            onPress={() => navigation.navigate('Login')}
             style={styles.registerbtn}>
-            <Text style={styles.registertxt}>Register Now</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.noaccountview}>
-          <Text style={styles.urbanisttext}>Login as admin here: </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('AdminLogin')}
-            style={styles.registerbtn}>
-            <Text style={styles.registertxt}>Admin Login</Text>
+            <Text style={styles.registertxt}>User Login</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -120,7 +118,7 @@ const LoginScreen = ({navigation, route}) => {
   );
 };
 
-export default LoginScreen;
+export default AdminLoginScreen;
 
 const styles = StyleSheet.create({
   container: {

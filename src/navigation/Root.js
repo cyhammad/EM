@@ -10,6 +10,7 @@ import PasswordChangedScreen from '../screens/PasswordChangedScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import UserProfileScreen from '../screens/main/UserProfileScreen';
 import UpdateProfileScreen from '../screens/main/UpdateProfileScreen';
+import AdminLoginScreen from '../screens/admin/AdminLoginScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,6 +61,11 @@ const Root = () => {
         <Stack.Screen
           name="UpdateProfile"
           component={UpdateProfileScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AdminLogin"
+          component={AdminLoginScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

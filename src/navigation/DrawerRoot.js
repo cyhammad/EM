@@ -3,7 +3,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import CategoriesScreen from '../screens/main/CategoriesScreen';
 import TabRoot from './TabRoot';
-import AdminApp from '../screens/AdminPanel';
+import AdminApp from '../screens/admin/AdminPanel';
 
 const Drawer = createDrawerNavigator();
 
