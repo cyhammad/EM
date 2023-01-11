@@ -1,9 +1,8 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import HomeScreen from '../screens/main/HomeScreen';
 import ProductDetails from '../screens/main/ProductDetails';
-import {Button, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Searchbar } from 'react-native-paper';
 import WishlistScreen from '../screens/main/WishlistScreen';

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -7,8 +8,7 @@
  */
 import {database} from '../../../firebase';
 import {ref, push, onValue, remove, update} from 'firebase/database';
-
-import {useState, useEffect} from 'react';
+import React,{useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -921,7 +921,6 @@ const Stack = createNativeStackNavigator();
 
 export default function AdminApp() {
   return (
-    // eslint-disable-next-line react/react-in-jsx-scope
     <NavigationContainer independent={true}>
       <Stack.Navigator>
         <Stack.Screen
