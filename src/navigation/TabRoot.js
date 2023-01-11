@@ -1,11 +1,11 @@
 import {View, StyleSheet} from 'react-native';
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import HomeScreen from '../screens/main/HomeScreen';
-import WishlistScreen from '../screens/main/WishlistScreen';
 import CartScreen from '../screens/main/CartScreen';
 import UserProfileRoot from './UserProfileRoot';
 import {SvgXml} from 'react-native-svg';
+import HomeRoot from './HomeRoot';
+import WishlistRoot from './WishlistRoot';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -50,7 +50,7 @@ const TabRoot = () => {
       }}>
       <Tab.Screen
         name="HomeTab"
-        component={HomeScreen}
+        component={HomeRoot}
         options={{
           tabBarIcon: ({focused}) => (
             <SvgXml xml={focused ? homeIcon : unselectedHomeIcon} />
@@ -60,7 +60,7 @@ const TabRoot = () => {
       />
       <Tab.Screen
         name="WishlistTab"
-        component={WishlistScreen}
+        component={WishlistRoot}
         options={{
           tabBarIcon: ({focused}) => (
             <SvgXml xml={focused ? heartIcon : unselectedHeartIcon} />

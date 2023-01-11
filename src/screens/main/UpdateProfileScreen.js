@@ -13,7 +13,7 @@ import {
   TextInput,
   Image,
 } from 'react-native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary, showImagePicker} from 'react-native-image-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {auth, database, storage} from '../../../firebase';
 
@@ -30,7 +30,7 @@ const UpdateProfileScreen = ({route, navigation}) => {
   );
   const [image, setImage] = useState(null);
   const pickImage = async () => {
-    launchImageLibrary({mediaType: 'photo'}, response => {
+    launchCamera({mediaType: 'photo'}, response => {
       console.log('Response = ', response);
       if (response.didCancel) {
         console.log('User cancelled image picker');

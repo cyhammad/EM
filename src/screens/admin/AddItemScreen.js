@@ -56,7 +56,7 @@ export default function AddItemScreen({navigation, routes}) {
     setDescription('');
     setName('');
     setNumber('');
-    navigation.navigate('TabViews');
+    navigation.navigate('AdminHome');
   };
   let options = {
     saveToPhotos: true,
