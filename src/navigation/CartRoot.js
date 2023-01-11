@@ -1,20 +1,22 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import ProductDetails from '../screens/main/ProductDetails';
 import {StyleSheet, View} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Searchbar } from 'react-native-paper';
-import WishlistScreen from '../screens/main/WishlistScreen';
+import {Searchbar} from 'react-native-paper';
+import CartScreen from '../screens/main/CartScreen';
+import PaymentDetails from '../screens/main/PaymentDetails';
+import MapScreen from '../screens/main/MapScreen';
+import MyWalletScreen from '../screens/main/MyWalletScreen';
 
-const WishlistRoot = ({navigation}) => {
+const CartRoot = ({navigation}) => {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator>
         <Stack.Screen
-          name="Wishlist"
-          component={WishlistScreen}
+          name="Cart"
+          component={CartScreen}
           options={{
             headerTitle: () => (
               <View style={styles.header}>
@@ -37,8 +39,18 @@ const WishlistRoot = ({navigation}) => {
           }}
         />
         <Stack.Screen
-          name="ProductDetails"
-          component={ProductDetails}
+          name="PaymentDetails"
+          component={PaymentDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MapScreen"
+          component={MapScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MyWallet"
+          component={MyWalletScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
@@ -46,7 +58,7 @@ const WishlistRoot = ({navigation}) => {
   );
 };
 
-export default WishlistRoot;
+export default CartRoot;
 
 const styles = StyleSheet.create({
   body: {
@@ -83,4 +95,3 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 });
-

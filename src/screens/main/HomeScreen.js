@@ -14,7 +14,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Swiper from 'react-native-swiper';
 import {onValue, ref} from 'firebase/database';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { ProductCard } from '../../components/ProductCard';
+import {ProductCard} from '../../components/ProductCard';
 
 const HomeScreen = ({navigation}) => {
   const [list, setList] = useState('');
@@ -27,7 +27,13 @@ const HomeScreen = ({navigation}) => {
     });
     const itemsRef = ref(database, 'items');
     onValue(itemsRef, snapshot => {
-      const itemList = Object.values(snapshot.val());
+      let itemList = Object.values(snapshot.val());
+      itemList = itemList.map((item, index) => {
+        return {
+          ...item,
+          id: Object.keys(snapshot.val())[index],
+        };
+      });
       setList(itemList);
     });
   }, []);
@@ -141,7 +147,9 @@ const HomeScreen = ({navigation}) => {
                         item.toLowerCase(),
                     ),
                   );
-                }}>
+                }}
+                key={index}
+                >
                 <Text style={styles.categoryTxt}>{item}</Text>
               </TouchableOpacity>
             ))}
@@ -153,7 +161,13 @@ const HomeScreen = ({navigation}) => {
           data={list}
           keyExtractor={item => item.id}
           renderItem={({item, index}) => (
-            <ProductCard item={item} key={item.id} index={index} />
+            <ProductCard
+              item={item}
+              key={item.id}
+              itemId={item.id}
+              index={index}
+              navigation={navigation}
+            />
           )}
           horizontal={true}
         />
@@ -190,7 +204,13 @@ const HomeScreen = ({navigation}) => {
             }}>
             <View>
               <Text style={{color: 'white', fontSize: 20}}>Honda Civic</Text>
-              <View style={{flexDirection: 'row', width: '60%', justifyContent: 'space-between', marginTop: 5}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: '60%',
+                  justifyContent: 'space-between',
+                  marginTop: 5,
+                }}>
                 <View style={{flexDirection: 'row'}}>
                   <Icon
                     name="lightning-bolt"
@@ -202,19 +222,25 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                 </View>
                 <View style={{flexDirection: 'row'}}>
-                  <Icon
-                    name="chart-bar"
-                    size={16}
-                    style={{color: 'white'}}
-                  />
-                  <Text style={{color: 'white', fontFamily: 'Urbanist-Light',marginLeft: 5}}>
+                  <Icon name="chart-bar" size={16} style={{color: 'white'}} />
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontFamily: 'Urbanist-Light',
+                      marginLeft: 5,
+                    }}>
                     2022
                   </Text>
                 </View>
               </View>
             </View>
             <TouchableOpacity
-              style={{padding: 5, backgroundColor: 'white', borderRadius: 20, marginVertical: 10}}>
+              style={{
+                padding: 5,
+                backgroundColor: 'white',
+                borderRadius: 20,
+                marginVertical: 10,
+              }}>
               <Icon name="arrow-right" size={20} />
             </TouchableOpacity>
           </View>
@@ -230,7 +256,13 @@ const HomeScreen = ({navigation}) => {
             }}>
             <View>
               <Text style={{color: 'white', fontSize: 20}}>Toyota Corolla</Text>
-              <View style={{flexDirection: 'row', width: '60%', justifyContent: 'space-between', marginTop: 5}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: '60%',
+                  justifyContent: 'space-between',
+                  marginTop: 5,
+                }}>
                 <View style={{flexDirection: 'row'}}>
                   <Icon
                     name="lightning-bolt"
@@ -242,19 +274,25 @@ const HomeScreen = ({navigation}) => {
                   </Text>
                 </View>
                 <View style={{flexDirection: 'row'}}>
-                  <Icon
-                    name="chart-bar"
-                    size={16}
-                    style={{color: 'white'}}
-                  />
-                  <Text style={{color: 'white', fontFamily: 'Urbanist-Light',marginLeft: 5}}>
+                  <Icon name="chart-bar" size={16} style={{color: 'white'}} />
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontFamily: 'Urbanist-Light',
+                      marginLeft: 5,
+                    }}>
                     2022
                   </Text>
                 </View>
               </View>
             </View>
             <TouchableOpacity
-              style={{padding: 5, backgroundColor: 'white', borderRadius: 20, marginVertical: 10}}>
+              style={{
+                padding: 5,
+                backgroundColor: 'white',
+                borderRadius: 20,
+                marginVertical: 10,
+              }}>
               <Icon name="arrow-right" size={20} />
             </TouchableOpacity>
           </View>
