@@ -1,4 +1,6 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -11,13 +13,27 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import UserProfileScreen from '../screens/main/UserProfileScreen';
 import UpdateProfileScreen from '../screens/main/UpdateProfileScreen';
 import AdminLoginScreen from '../screens/admin/AdminLoginScreen';
-
+import SplashScreen from '../screens/SplashScreen';
 const Stack = createNativeStackNavigator();
 
 const Root = () => {
+  const [showSplash, setShowSplash] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSplash(false);
+    }, 10000);
+  }, []);
   return (
     <NavigationContainer independent={true}>
       <Stack.Navigator>
+        {showSplash ? (
+          <Stack.Screen
+            name="SplashScreen"
+            component={SplashScreen}
+            options={{headerShown: false}}
+          />
+        ) : null}
+
         <Stack.Screen
           name="Welcome"
           component={WelcomeScreen}
