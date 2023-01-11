@@ -7,8 +7,6 @@ import {decrement, increment, incrementByAmount} from '../redux/counter';
 const carImage = require('../assets/rangeroverdim.jpeg');
 
 const WelcomeScreen = ({navigation}) => {
-  const {value} = useSelector(state => state.counter);
-  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <ImageBackground source={carImage} style={styles.image}>
