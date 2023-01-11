@@ -6,7 +6,7 @@ import {auth, database} from '../../../firebase';
 import {onValue, ref} from 'firebase/database';
 import {ProductCard} from '../../components/ProductCard';
 
-const WishlistScreen = () => {
+const WishlistScreen = ({navigation}) => {
   const user = auth.currentUser;
   const [list, setList] = useState([]);
   useEffect(() => {
@@ -17,7 +17,7 @@ const WishlistScreen = () => {
     });
   }, [user.uid]);
   return (
-    <ScrollView style={{backgroundColor: 'white', flex: 1}}>
+    <View style={{backgroundColor: 'white', flex: 1}}>
       <View
         style={{
           paddingTop: 10,
@@ -30,9 +30,9 @@ const WishlistScreen = () => {
             showsHorizontalScrollIndicator={false}
             data={list}
             key={'_'}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.title}
             renderItem={({item, index}) => (
-              <ProductCard item={item} key={item.id} index={index} likeBtn={false} />
+              <ProductCard item={item} key={index} index={index} likeBtn={false} navigation={navigation} />
             )}
             horizontal={false}
             verticalScrollIndicator={false}
@@ -42,7 +42,7 @@ const WishlistScreen = () => {
           <Text>No items in wishlist</Text>
         )}
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
