@@ -6,6 +6,8 @@ import UserProfileRoot from './UserProfileRoot';
 import {SvgXml} from 'react-native-svg';
 import HomeRoot from './HomeRoot';
 import WishlistRoot from './WishlistRoot';
+import {useSelector} from 'react-redux';
+import CartRoot from './CartRoot';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -39,6 +41,12 @@ const TabRoot = () => {
   <path d="M12.9566 10.87C12.8566 10.86 12.7366 10.86 12.6266 10.87C10.2466 10.79 8.35657 8.84 8.35657 6.44C8.35657 3.99 10.3366 2 12.7966 2C15.2466 2 17.2366 3.99 17.2366 6.44C17.2266 8.84 15.3366 10.79 12.9566 10.87Z" stroke="#061023" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M7.95575 14.56C5.53575 16.18 5.53575 18.82 7.95575 20.43C10.7057 22.27 15.2158 22.27 17.9658 20.43C20.3858 18.81 20.3858 16.17 17.9658 14.56C15.2258 12.73 10.7157 12.73 7.95575 14.56Z" stroke="#061023" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
+
+  const cart = useSelector(state => state.items);
+  const getTotalQuantity = () => {
+    let total = cart.length;
+    return total;
+  };
   return (
     <Tab.Navigator
       barStyle={styles.tabStyle}
@@ -71,14 +79,14 @@ const TabRoot = () => {
       />
       <Tab.Screen
         name="CartTab"
-        component={CartScreen}
+        component={CartRoot}
         options={{
           tabBarIcon: ({focused}) => (
             <SvgXml xml={focused ? cartIcon : unselectedCartIcon} />
           ),
           tabBarLabel: 'Cart',
           tabBarColor: '#ffffff',
-          tabBarBadge: 3,
+          tabBarBadge: getTotalQuantity(),
           tabBarBadgeStyle: {backgroundColor: 'blue'},
         }}
       />
